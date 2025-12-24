@@ -2,6 +2,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 import { getCurrentUser } from '@/lib/auth/auth';
+import type { UpdateSkillCategoryData } from '@/lib/types/database';
 
 export async function PUT(
     request: Request,
@@ -14,7 +15,7 @@ export async function PUT(
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
-        const json = await request.json();
+        const json = await request.json() as UpdateSkillCategoryData;
         const supabase = await createClient();
 
         const { data, error } = await supabase
