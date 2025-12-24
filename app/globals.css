@@ -1,8 +1,13 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Theme customization - Requirements 12.2, 12.3, 12.5 */
+  --accent-color: #3b82f6;
+  --animation-speed: 1.0;
 }
 
 @theme inline {
@@ -10,17 +15,903 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* Custom breakpoints - Requirements 10.1, 10.2, 10.3 */
+  --breakpoint-xs: 320px;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+  --breakpoint-3xl: 1920px;
+  --breakpoint-4k: 2560px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Dark mode color variables */
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+}
+
+/* Light mode color variables */
+.light {
+  --background: #ffffff;
+  --foreground: #171717;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+}
+
+html {
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+  height: 100%;
+}
+
+#__next {
+  min-height: 100vh;
+}
+
+/* Smooth theme transitions - Requirements 9.3, 9.5 */
+html {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Apply smooth transitions to all elements that change with theme */
+* {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+/* Perspective for 3D transforms */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+/* Smooth scroll behavior */
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* Responsive utilities - Requirements 10.1, 10.2, 10.3, 10.4, 10.5 */
+
+/* Mobile-first base styles */
+@media (max-width: 639px) {
+
+  /* Touch-friendly tap targets - minimum 44x44px */
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Prevent text size adjustment on orientation change */
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  /* Improve touch scrolling */
+  * {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Tablet optimizations */
+@media (min-width: 640px) and (max-width: 1023px) {
+
+  /* Optimize grid layouts for tablet */
+  .responsive-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}
+
+/* Desktop optimizations */
+@media (min-width: 1024px) {
+
+  /* Optimize grid layouts for desktop */
+  .responsive-grid {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  }
+}
+
+/* Large desktop and 4K optimizations */
+@media (min-width: 1920px) {
+
+  /* Constrain max content width for readability */
+  .container-constrained {
+    max-width: 1920px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* 4K specific optimizations */
+@media (min-width: 2560px) {
+
+  /* Scale up for 4K displays */
+  html {
+    font-size: 18px;
+  }
+}
+
+/* Orientation change handling - Requirement 10.4 */
+@media (orientation: portrait) {
+  .orientation-aware {
+    flex-direction: column;
+  }
+}
+
+@media (orientation: landscape) {
+  .orientation-aware {
+    flex-direction: row;
+  }
+}
+
+/* Prevent layout shift on orientation change */
+@media screen and (orientation: portrait) {
+  body {
+    min-height: 100vh;
+  }
+}
+
+@media screen and (orientation: landscape) {
+  body {
+    min-height: 100vw;
+  }
+}
+
+/* Accessibility - Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  * {
+    border-width: 2px;
+  }
+}
+
+/* Accessibility Features - Requirements 8.1, 8.2, 8.3, 8.4, 8.5 */
+
+/* High Contrast Mode - WCAG AAA Compliance (Requirement 8.1) */
+.high-contrast {
+  --contrast-bg: #000000;
+  --contrast-fg: #ffffff;
+  --contrast-link: #ffff00;
+  --contrast-link-visited: #ff00ff;
+  --contrast-border: #ffffff;
+  --contrast-focus: #00ffff;
+}
+
+.high-contrast body {
+  background: var(--contrast-bg) !important;
+  color: var(--contrast-fg) !important;
+}
+
+.high-contrast a {
+  color: var(--contrast-link) !important;
+  text-decoration: underline;
+}
+
+.high-contrast a:visited {
+  color: var(--contrast-link-visited) !important;
+}
+
+.high-contrast button,
+.high-contrast input,
+.high-contrast select,
+.high-contrast textarea {
+  border: 2px solid var(--contrast-border) !important;
+  background: var(--contrast-bg) !important;
+  color: var(--contrast-fg) !important;
+}
+
+.high-contrast *:focus {
+  outline: 3px solid var(--contrast-focus) !important;
+  outline-offset: 2px;
+}
+
+/* Ensure sufficient contrast for all interactive elements */
+.high-contrast .project-card,
+.high-contrast .role-card {
+  border: 2px solid var(--contrast-border) !important;
+  background: var(--contrast-bg) !important;
+  color: var(--contrast-fg) !important;
+}
+
+/* Text Scaling System (Requirement 8.2) */
+:root {
+  --text-scale: 1;
+}
+
+/* Scale all text elements proportionally */
+.text-scaled h1 {
+  font-size: calc(2.25rem * var(--text-scale));
+}
+
+.text-scaled h2 {
+  font-size: calc(1.875rem * var(--text-scale));
+}
+
+.text-scaled h3 {
+  font-size: calc(1.5rem * var(--text-scale));
+}
+
+.text-scaled h4 {
+  font-size: calc(1.25rem * var(--text-scale));
+}
+
+.text-scaled h5 {
+  font-size: calc(1.125rem * var(--text-scale));
+}
+
+.text-scaled h6 {
+  font-size: calc(1rem * var(--text-scale));
+}
+
+.text-scaled p,
+.text-scaled span,
+.text-scaled div,
+.text-scaled li {
+  font-size: calc(1rem * var(--text-scale));
+}
+
+.text-scaled small {
+  font-size: calc(0.875rem * var(--text-scale));
+}
+
+/* Readability Mode - Simplified Animations (Requirement 8.3) */
+.readability-mode *,
+.readability-mode *::before,
+.readability-mode *::after {
+  animation-duration: 0.3s !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.2s !important;
+}
+
+.readability-mode .parallax-effect,
+.readability-mode .tilt-effect,
+.readability-mode .particle-system {
+  display: none !important;
+}
+
+/* Simplify complex visual effects */
+.readability-mode .glassmorphism {
+  backdrop-filter: none !important;
+  background: rgba(255, 255, 255, 0.95) !important;
+}
+
+.readability-mode.dark .glassmorphism {
+  background: rgba(0, 0, 0, 0.95) !important;
+}
+
+/* Reduce shadows and glows */
+.readability-mode * {
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+/* Keep essential borders for structure */
+.readability-mode .project-card,
+.readability-mode .role-card {
+  border: 1px solid currentColor !important;
+}
+
+/* Keyboard Navigation Focus Indicators (Requirement 8.4) */
+.keyboard-nav-enabled *:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.keyboard-nav-enabled.dark *:focus {
+  outline-color: #60a5fa;
+}
+
+.keyboard-nav-enabled *:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.keyboard-nav-enabled *:focus-visible {
+  outline: 3px solid #3b82f6;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+}
+
+.keyboard-nav-enabled.dark *:focus-visible {
+  outline-color: #60a5fa;
+  box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.2);
+}
+
+/* Enhanced focus for interactive elements */
+.keyboard-nav-enabled button:focus-visible,
+.keyboard-nav-enabled a:focus-visible,
+.keyboard-nav-enabled input:focus-visible,
+.keyboard-nav-enabled select:focus-visible,
+.keyboard-nav-enabled textarea:focus-visible {
+  outline: 3px solid #3b82f6;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 5px rgba(59, 130, 246, 0.3);
+}
+
+/* Skip to main content link for keyboard navigation */
+.skip-to-main {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  background: #3b82f6;
+  color: white;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  z-index: 9999;
+}
+
+.skip-to-main:focus {
+  top: 0;
+}
+
+/* Reduced Motion Class (Requirement 8.5) */
+.reduce-motion *,
+.reduce-motion *::before,
+.reduce-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* Disable parallax and 3D effects */
+.reduce-motion .parallax-effect,
+.reduce-motion .tilt-effect,
+.reduce-motion [data-parallax] {
+  transform: none !important;
+}
+
+/* Disable auto-playing animations */
+.reduce-motion .auto-animate {
+  animation: none !important;
+}
+
+/* Combined accessibility modes */
+.high-contrast.readability-mode {
+  /* Ensure high contrast takes precedence */
+}
+
+.high-contrast.reduce-motion {
+  /* Both modes work together */
+}
+
+/* Ensure layouts don't break with text scaling */
+@media (min-width: 640px) {
+  html[style*="font-size"] .container {
+    max-width: 100%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+/* Prevent overflow with larger text */
+html[style*="font-size"] * {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+}
+
+/* Accessibility Controls Styling */
+.accessibility-controls-panel {
+  /* Ensure panel is always visible and not cut off */
+  max-width: calc(100vw - 2rem);
+  max-height: calc(100vh - 8rem);
+}
+
+/* Hide scrollbar but keep functionality */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari and Opera */
+}
+
+/* Ensure accessibility button is always accessible */
+@media (max-width: 640px) {
+  .accessibility-controls-panel {
+    width: calc(100vw - 2rem);
+    left: 1rem;
+    right: 1rem;
+  }
+}
+
+/* Print styles */
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+}
+
+/* Prevent horizontal overflow globally */
+* {
+  box-sizing: border-box;
+}
+
+*:not(svg):not(path) {
+  max-width: 100%;
+}
+
+/* Ensure images and media are responsive */
+img,
+video,
+canvas,
+iframe {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Prevent text overflow */
+.truncate-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Role-specific theme adaptations - Requirements 6.2, 6.3 */
+
+/* Data Analyst theme */
+.data-analyst-theme {
+  --role-accent: #3b82f6;
+  /* blue-500 */
+  --role-accent-light: #60a5fa;
+  /* blue-400 */
+  --role-accent-dark: #2563eb;
+  /* blue-600 */
+}
+
+.data-analyst-theme .project-card {
+  border-left: 3px solid var(--role-accent);
+}
+
+.data-analyst-theme .project-card:hover {
+  box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.1),
+    0 10px 10px -5px rgba(59, 130, 246, 0.04);
+}
+
+/* Web Developer theme */
+.web-developer-theme {
+  --role-accent: #10b981;
+  /* green-500 */
+  --role-accent-light: #34d399;
+  /* green-400 */
+  --role-accent-dark: #059669;
+  /* green-600 */
+}
+
+.web-developer-theme .project-card {
+  border-left: 3px solid var(--role-accent);
+}
+
+.web-developer-theme .project-card:hover {
+  box-shadow: 0 20px 25px -5px rgba(16, 185, 129, 0.1),
+    0 10px 10px -5px rgba(16, 185, 129, 0.04);
+}
+
+/* Flutter Developer theme */
+.flutter-developer-theme {
+  --role-accent: #06b6d4;
+  /* cyan-500 */
+  --role-accent-light: #22d3ee;
+  /* cyan-400 */
+  --role-accent-dark: #0891b2;
+  /* cyan-600 */
+}
+
+.flutter-developer-theme .project-card {
+  border-left: 3px solid var(--role-accent);
+}
+
+.flutter-developer-theme .project-card:hover {
+  box-shadow: 0 20px 25px -5px rgba(6, 182, 212, 0.1),
+    0 10px 10px -5px rgba(6, 182, 212, 0.04);
+}
+
+/* SQL Developer theme */
+.sql-developer-theme {
+  --role-accent: #f59e0b;
+  /* amber-500 */
+  --role-accent-light: #fbbf24;
+  /* amber-400 */
+  --role-accent-dark: #d97706;
+  /* amber-600 */
+}
+
+.sql-developer-theme .project-card {
+  border-left: 3px solid var(--role-accent);
+}
+
+.sql-developer-theme .project-card:hover {
+  box-shadow: 0 20px 25px -5px rgba(245, 158, 11, 0.1),
+    0 10px 10px -5px rgba(245, 158, 11, 0.04);
+}
+
+/* Smooth theme transitions */
+.data-analyst-theme,
+.web-developer-theme,
+.flutter-developer-theme,
+.sql-developer-theme {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.data-analyst-theme .project-card,
+.web-developer-theme .project-card,
+.flutter-developer-theme .project-card,
+.sql-developer-theme .project-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 3D Tilt Effects and Performance Optimizations - Requirements 10.1, 10.2, 10.5 */
+
+/* GPU acceleration for transforms - Requirement 10.5 */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+.will-change-transform-opacity {
+  will-change: transform, opacity;
+}
+
+/* Optimize 3D rendering */
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+/* Force GPU acceleration for animations */
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Enhanced depth shadows for 3D cards */
+/* Note: Shadows are kept for visual depth but animations use transform/opacity only */
+.enhanced-shadow {
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.12),
+    0 1px 2px rgba(0, 0, 0, 0.24);
+  /* Use transform for hover effect instead of box-shadow animation */
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.enhanced-shadow:hover {
+  /* Animate transform instead of box-shadow for better performance */
+  transform: translateY(-2px) scale(1.02);
+  box-shadow:
+    0 14px 28px rgba(0, 0, 0, 0.25),
+    0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+.dark .enhanced-shadow {
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.3),
+    0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.dark .enhanced-shadow:hover {
+  box-shadow:
+    0 14px 28px rgba(0, 0, 0, 0.5),
+    0 10px 10px rgba(0, 0, 0, 0.4);
+}
+
+/* Neon glow effect for tech tags - Requirement 10.4 */
+/* Optimized to use opacity for animation instead of box-shadow */
+@keyframes neon-pulse {
+
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.neon-glow {
+  box-shadow:
+    0 0 10px rgba(59, 130, 246, 0.5),
+    0 0 20px rgba(59, 130, 246, 0.3),
+    0 0 30px rgba(59, 130, 246, 0.2);
+  animation: neon-pulse 2s ease-in-out infinite;
+  will-change: opacity;
+}
+
+/* Disable neon glow in reduced motion mode */
+.reduce-motion .neon-glow,
+.readability-mode .neon-glow {
+  animation: none;
+  box-shadow: none;
+  opacity: 1;
+}
+
+/* Staggered entrance animation - Requirement 10.3 */
+/* Optimized to use only transform and opacity */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stagger-fade-in {
+  animation: fade-in-up 0.6s ease-out forwards;
+  will-change: transform, opacity;
+}
+
+/* Performance optimization: Use transform and opacity only - Requirement 10.5 */
+.optimized-hover {
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+  will-change: transform;
+}
+
+.optimized-hover:hover {
+  transform: translateY(-8px) scale(1.02);
+}
+
+/* Optimized animation classes */
+.animate-optimized {
+  will-change: transform, opacity;
+}
+
+.animate-optimized-complete {
+  will-change: auto;
+}
+
+/* Rounded inherit for nested elements */
+.rounded-inherit {
+  border-radius: inherit;
+}
+
+/* Disable 3D effects on mobile for better performance */
+@media (max-width: 768px) {
+  .will-change-transform {
+    will-change: auto;
+  }
+
+  .preserve-3d {
+    transform-style: flat;
+  }
+}
+
+/* Ensure smooth 60fps animations */
+@media (prefers-reduced-motion: no-preference) {
+  .smooth-60fps {
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    animation-duration: 0.3s;
+  }
+}
+
+/* Contact form animations - Requirements 11.2, 11.3 */
+/* Optimized to use only transform and opacity */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+  will-change: opacity;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.5s ease-out;
+  will-change: transform, opacity;
+}
+
+/* Glassmorphism styles - Requirements 1.3, 11.1 */
+.glassmorphism {
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  background-color: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dark .glassmorphism {
+  background-color: rgba(17, 17, 17, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Glassmorphism panel variant */
+.glassmorphism-panel {
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  background-color: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+}
+
+.dark .glassmorphism-panel {
+  background-color: rgba(17, 17, 17, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* Neon border animation for inputs - Requirement 11.2 */
+/* Optimized to use opacity instead of animating box-shadow */
+@keyframes neon-border-pulse {
+
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.neon-border-focus:focus {
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.8),
+    0 0 20px rgba(59, 130, 246, 0.5),
+    inset 0 0 10px rgba(59, 130, 246, 0.3);
+  border-color: rgba(59, 130, 246, 0.8);
+  animation: neon-border-pulse 2s ease-in-out infinite;
+  will-change: opacity;
+}
+
+
+/* Skill Cloud Animations */
+@layer utilities {
+  .perspective-\[1000px\] {
+    perspective: 1000px;
+  }
+
+  .transform-style-3d {
+    transform-style: preserve-3d;
+  }
+
+  .backface-visible {
+    backface-visibility: visible;
+  }
+
+  .animate-spin-slow {
+    animation: spin 20s linear infinite;
+  }
+
+  .animate-counter-rotate {
+    animation: counter-rotate 20s linear infinite;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotateY(0deg) rotateX(0deg);
+  }
+
+  to {
+    transform: rotateY(360deg) rotateX(360deg);
+  }
+}
+
+@keyframes counter-rotate {
+  from {
+    transform: rotateX(0deg) rotateY(0deg);
+  }
+
+  to {
+    transform: rotateX(-360deg) rotateY(-360deg);
+  }
+}
+
+.readability-mode .glassmorphism-panel {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background-color: rgba(255, 255, 255, 0.95) !important;
+}
+
+.readability-mode.dark .glassmorphism,
+.readability-mode.dark .glassmorphism-panel {
+  background-color: rgba(17, 17, 17, 0.95) !important;
+}
+
+/* Glitch Text Effect for Role Rotator */
+.text-shadow-glitch {
+  text-shadow:
+    2px 0 0 rgba(0, 255, 255, 0.7),
+    -2px 0 0 rgba(255, 0, 80, 0.7);
+  animation: glitch-skew 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+}
+
+@keyframes glitch-skew {
+  0% {
+    transform: skew(0deg);
+  }
+
+  20% {
+    transform: skew(-2deg);
+  }
+
+  40% {
+    transform: skew(2deg);
+  }
+
+  60% {
+    transform: skew(-1deg);
+  }
+
+  80% {
+    transform: skew(1deg);
+  }
+
+  100% {
+    transform: skew(0deg);
+  }
 }
