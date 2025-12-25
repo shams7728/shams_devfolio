@@ -35,21 +35,21 @@ class FPSMonitor {
   update(): FPSMetrics {
     const currentTime = performance.now();
     const delta = currentTime - this.lastTime;
-    
+
     if (delta > 0) {
       const fps = 1000 / delta;
       this.frames.push(fps);
-      
+
       // Keep only recent samples
       if (this.frames.length > this.maxSamples) {
         this.frames.shift();
       }
-      
+
       this.frameCount++;
     }
-    
+
     this.lastTime = currentTime;
-    
+
     return this.getMetrics();
   }
 
@@ -92,7 +92,7 @@ export function getFPSMonitor(): FPSMonitor {
 export function logFPSMetrics(componentName: string): void {
   const monitor = getFPSMonitor();
   const metrics = monitor.getMetrics();
-  
+
   if (process.env.NODE_ENV === 'development') {
     console.log(`[3D Performance - ${componentName}]`, {
       current: `${metrics.current} fps`,
@@ -218,7 +218,7 @@ export async function loadOptimizedTexture(
 ): Promise<THREE.Texture> {
   return new Promise((resolve, reject) => {
     const loader = new THREE.TextureLoader();
-    
+
     loader.load(
       url,
       (texture) => {
@@ -245,23 +245,23 @@ export function compressTexture(
 
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
-  
+
   if (!ctx) return texture;
 
   const { width, height } = texture.image;
   const scale = Math.min(targetSize / width, targetSize / height, 1);
-  
+
   canvas.width = width * scale;
   canvas.height = height * scale;
-  
+
   ctx.drawImage(texture.image, 0, 0, canvas.width, canvas.height);
-  
+
   const compressedTexture = new THREE.CanvasTexture(canvas);
   compressedTexture.minFilter = texture.minFilter;
   compressedTexture.magFilter = texture.magFilter;
   compressedTexture.wrapS = texture.wrapS;
   compressedTexture.wrapT = texture.wrapT;
-  
+
   return compressedTexture;
 }
 
@@ -278,24 +278,24 @@ export function isInFrustum(
 ): boolean {
   const frustum = new THREE.Frustum();
   const matrix = new THREE.Matrix4();
-  
+
   matrix.multiplyMatrices(
     camera.projectionMatrix,
     camera.matrixWorldInverse
   );
-  
+
   frustum.setFromProjectionMatrix(matrix);
-  
+
   // Update world matrix if needed
   object.updateMatrixWorld(true);
-  
+
   // Check if object's bounding sphere intersects frustum
   if (object instanceof THREE.Mesh && object.geometry.boundingSphere) {
     const sphere = object.geometry.boundingSphere.clone();
     sphere.applyMatrix4(object.matrixWorld);
     return frustum.intersectsSphere(sphere);
   }
-  
+
   return true; // Default to visible if we can't determine
 }
 
@@ -371,7 +371,7 @@ export class ParticlePool {
 
     this.active.delete(particle);
     particle.visible = false;
-    
+
     // Reset particle state
     particle.position.set(0, 0, 0);
     particle.rotation.set(0, 0, 0);
@@ -463,7 +463,7 @@ export function createLazySceneObserver(
  * Hook for lazy loading 3D scenes
  */
 export function useLazyScene(
-  elementRef: React.RefObject<HTMLElement>,
+  elementRef: React.RefObject<HTMLElement | null>,
   options: LazySceneOptions = {}
 ): boolean {
   const [isVisible, setIsVisible] = React.useState(false);
@@ -585,7 +585,7 @@ export class AdaptiveQualityManager {
 
   update(): QualitySettings {
     const now = performance.now();
-    
+
     if (now - this.lastCheck < this.checkInterval) {
       return this.currentQuality;
     }
