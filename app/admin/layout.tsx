@@ -39,22 +39,22 @@ export default async function AdminLayout({
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center gap-2 sm:gap-4 min-w-0">
               {/* Logo/Home Link */}
-              <Link 
+              <Link
                 href="/admin"
                 className="flex items-center gap-2 group min-w-0"
               >
                 <div className="w-8 h-8 flex-shrink-0 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg shadow-blue-500/20 group-hover:shadow-blue-500/40 transition-shadow">
-                  <svg 
-                    className="w-5 h-5 text-white" 
-                    fill="none" 
-                    stroke="currentColor" 
+                  <svg
+                    className="w-5 h-5 text-white"
+                    fill="none"
+                    stroke="currentColor"
                     viewBox="0 0 24 24"
                   >
-                    <path 
-                      strokeLinecap="round" 
-                      strokeLinejoin="round" 
-                      strokeWidth={2} 
-                      d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" 
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
                     />
                   </svg>
                 </div>
@@ -85,7 +85,7 @@ export default async function AdminLayout({
         </div>
       </header>
 
-      <div className="flex w-full max-w-7xl mx-auto pb-16 lg:pb-0">
+      <div className="flex w-full max-w-7xl mx-auto min-h-[calc(100vh-64px)] pb-16 lg:pb-0">
         {/* Sidebar Navigation */}
         <AdminSidebar userRole={user.role} />
 

@@ -173,7 +173,7 @@ export default function AdminSkillsPage() {
                                 value={newCategoryName}
                                 onChange={(e) => setNewCategoryName(e.target.value)}
                                 placeholder="Category Name"
-                                className="w-full px-3 py-2 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-lg mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-3 py-2 bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border border-zinc-200 dark:border-zinc-700 rounded-lg mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 autoFocus
                             />
                             <div className="flex gap-2">
@@ -191,8 +191,8 @@ export default function AdminSkillsPage() {
                                 key={category.id}
                                 onClick={() => setSelectedCategoryId(category.id)}
                                 className={`group flex items-center justify-between p-4 rounded-xl cursor-pointer transition-all border ${selectedCategoryId === category.id
-                                        ? 'bg-blue-50 dark:bg-blue-900/20 border-blue-500 dark:border-blue-500 shadow-md'
-                                        : 'bg-white dark:bg-zinc-800/50 border-zinc-200 dark:border-zinc-700 hover:border-blue-300 dark:hover:border-blue-700'
+                                    ? 'bg-blue-50 dark:bg-blue-900/20 border-blue-500 dark:border-blue-500 shadow-md'
+                                    : 'bg-white dark:bg-zinc-800/50 border-zinc-200 dark:border-zinc-700 hover:border-blue-300 dark:hover:border-blue-700'
                                     }`}
                             >
                                 <span className={`font-medium ${selectedCategoryId === category.id ? 'text-blue-700 dark:text-blue-300' : 'text-zinc-700 dark:text-zinc-300'}`}>
@@ -238,7 +238,7 @@ export default function AdminSkillsPage() {
                                             value={newSkillName}
                                             onChange={(e) => setNewSkillName(e.target.value)}
                                             placeholder="Skill Name (e.g. React, Python)"
-                                            className="flex-1 px-4 py-2 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            className="flex-1 px-4 py-2 bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border border-zinc-200 dark:border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                                             autoFocus
                                         />
                                         <button type="submit" className="px-6 py-2 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600">Add</button>

@@ -38,7 +38,7 @@ export default function AboutPageClient({
 }: AboutPageClientProps) {
   const { selectedRole } = useRoleMode();
   const [mounted, setMounted] = useState(false);
-  
+
   // Refs for animation
   const heroRef = useRef<HTMLDivElement>(null);
   const drivesRef = useRef<HTMLDivElement>(null);
@@ -143,28 +143,11 @@ export default function AboutPageClient({
     };
   }, [mounted]);
 
-  // Role-based visual adaptations
-  const getRoleThemeClasses = () => {
-    if (!selectedRole) return '';
-    
-    const roleSlug = selectedRole.slug || '';
-    
-    // Map role slugs to theme classes
-    const themeMap: Record<string, string> = {
-      'data-analyst': 'role-theme-data',
-      'web-developer': 'role-theme-web',
-      'flutter-developer': 'role-theme-flutter',
-      'sql-developer': 'role-theme-sql',
-    };
-    
-    return themeMap[roleSlug] || '';
-  };
-
   const getRoleAccentColor = () => {
     if (!selectedRole) return 'from-blue-500 to-purple-600';
-    
+
     const roleSlug = selectedRole.slug || '';
-    
+
     // Map role slugs to gradient colors
     const colorMap: Record<string, string> = {
       'data-analyst': 'from-cyan-500 to-blue-600',
@@ -172,15 +155,15 @@ export default function AboutPageClient({
       'flutter-developer': 'from-blue-400 to-indigo-600',
       'sql-developer': 'from-orange-500 to-red-600',
     };
-    
+
     return colorMap[roleSlug] || 'from-blue-500 to-purple-600';
   };
 
   return (
-    <div className={`min-h-screen bg-gray-50 dark:bg-gray-900 ${getRoleThemeClasses()}`}>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Navigation Bar */}
       <NavigationBar />
-      
+
       {/* Hero Section */}
       <section
         ref={heroRef}
@@ -188,7 +171,7 @@ export default function AboutPageClient({
       >
         {/* Background gradient */}
         <div className={`absolute inset-0 bg-gradient-to-br ${getRoleAccentColor()} opacity-10`}></div>
-        
+
         <div className="relative max-w-4xl mx-auto text-center">
           <h1 className="animate-fade-in text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
             About Me
@@ -208,7 +191,7 @@ export default function AboutPageClient({
           <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-12 text-center">
             What Drives Me
           </h2>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Drive Card 1: Innovation */}
             <div className="drive-card bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg hover:shadow-2xl transition-shadow duration-300">
@@ -264,7 +247,7 @@ export default function AboutPageClient({
           <p className="text-xl text-gray-600 dark:text-gray-300 mb-12 text-center max-w-3xl mx-auto">
             A systematic approach to delivering exceptional results
           </p>
-          
+
           <WorkflowVisualization stages={workflowStages} />
         </div>
       </section>
@@ -281,26 +264,10 @@ export default function AboutPageClient({
           <p className="text-xl text-gray-600 dark:text-gray-300 mb-12 text-center max-w-3xl mx-auto">
             Key milestones in my professional growth
           </p>
-          
+
           <Timeline milestones={milestones} />
         </div>
       </section>
-
-      {/* Role-specific styling */}
-      <style jsx>{`
-        .role-theme-data {
-          --role-accent: #06b6d4;
-        }
-        .role-theme-web {
-          --role-accent: #10b981;
-        }
-        .role-theme-flutter {
-          --role-accent: #3b82f6;
-        }
-        .role-theme-sql {
-          --role-accent: #f97316;
-        }
-      `}</style>
     </div>
   );
 }
