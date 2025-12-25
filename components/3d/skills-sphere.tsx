@@ -108,7 +108,7 @@ function Cloud({ count = 8, radius = 20 }) {
 export default function SkillsSphere() {
     return (
         <group>
-            <Cloud max={SKILLS.length} radius={3} />
+            <Cloud count={SKILLS.length} radius={3} />
             {/* Ambient glow inside sphere */}
             <pointLight position={[0, 0, 0]} color="#06b6d4" intensity={2} distance={10} decay={2} />
         </group>
