@@ -15,11 +15,11 @@ export async function PUT(
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
-        const json = await request.json() as UpdateSkillCategoryData;
+        const json = await request.json();
         const supabase = await createClient();
 
-        const { data, error } = await supabase
-            .from('skill_categories')
+        const { data, error } = await (supabase
+            .from('skill_categories') as any)
             .update(json)
             .eq('id', id)
             .select()
