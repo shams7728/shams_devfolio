@@ -17,7 +17,7 @@ import { gsap } from 'gsap';
 // ============================================================================
 
 interface AnimationPool {
-  [key: string]: gsap.core.Timeline;
+  [key: string]: gsap.core.Timeline | undefined;
 }
 
 class AnimationPoolManager {
@@ -31,7 +31,7 @@ class AnimationPoolManager {
     if (!(key in this.pool)) {
       this.pool[key] = createFn ? createFn() : gsap.timeline({ paused: true });
     }
-    return this.pool[key];
+    return this.pool[key] as gsap.core.Timeline;
   }
 
   /**
@@ -57,7 +57,7 @@ class AnimationPoolManager {
   cleanup(): void {
     Object.keys(this.pool).forEach(key => {
       if (!this.activeAnimations.has(key)) {
-        this.pool[key].kill();
+        this.pool[key]?.kill();
         delete this.pool[key];
       }
     });
@@ -149,13 +149,13 @@ export function throttle<T extends (...args: any[]) => any>(
 
     if (!inThrottle) {
       inThrottle = true;
-      
+
       rafId = requestAnimationFrame(() => {
         if (lastArgs) {
           func.apply(context, lastArgs);
           lastArgs = null;
         }
-        
+
         setTimeout(() => {
           inThrottle = false;
         }, limit);
@@ -203,13 +203,13 @@ class PerformanceMonitor {
    */
   start(): void {
     if (this.isMonitoring) return;
-    
+
     this.isMonitoring = true;
     this.lastFrameTime = performance.now();
     this.lastFpsUpdate = performance.now();
     this.frameCount = 0;
     this.droppedFrames = 0;
-    
+
     this.monitor();
   }
 
@@ -251,7 +251,7 @@ class PerformanceMonitor {
 
     const currentTime = performance.now();
     const delta = currentTime - this.lastFrameTime;
-    
+
     this.frameTime = delta;
     this.frameCount++;
 
@@ -292,7 +292,7 @@ export function applyWillChange(
   duration: number = 1000
 ): void {
   element.style.willChange = properties.join(', ');
-  
+
   // Remove will-change after animation completes
   setTimeout(() => {
     element.style.willChange = 'auto';
