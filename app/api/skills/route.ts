@@ -50,8 +50,8 @@ export async function POST(request: Request) {
         const supabase = await createClient();
 
         // Get max display_order for this category
-        const { data: maxOrderData } = await supabase
-            .from('skills')
+        const { data: maxOrderData } = await (supabase
+            .from('skills') as any)
             .select('display_order')
             .eq('category_id', category_id)
             .order('display_order', { ascending: false })
@@ -59,8 +59,8 @@ export async function POST(request: Request) {
 
         const nextOrder = maxOrderData && maxOrderData.length > 0 ? maxOrderData[0].display_order + 1 : 0;
 
-        const { data, error } = await supabase
-            .from('skills')
+        const { data, error } = await (supabase
+            .from('skills') as any)
             .insert({
                 name,
                 category_id,
