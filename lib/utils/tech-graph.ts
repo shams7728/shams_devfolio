@@ -7,6 +7,7 @@
 
 import type { Project } from '@/lib/types/database';
 import type { Technology } from '@/components/3d/tech-ecosystem';
+export type { Technology };
 
 /**
  * Technology category mapping
@@ -26,7 +27,7 @@ const TECH_CATEGORIES: Record<string, string> = {
   'Three.js': 'Frontend',
   'D3.js': 'Frontend',
   'GSAP': 'Frontend',
-  
+
   // Backend
   'Node.js': 'Backend',
   'Express': 'Backend',
@@ -38,7 +39,7 @@ const TECH_CATEGORIES: Record<string, string> = {
   'Laravel': 'Backend',
   'Spring Boot': 'Backend',
   'ASP.NET': 'Backend',
-  
+
   // Database
   'PostgreSQL': 'Database',
   'MySQL': 'Database',
@@ -48,7 +49,7 @@ const TECH_CATEGORIES: Record<string, string> = {
   'Supabase': 'Database',
   'Firebase': 'Database',
   'DynamoDB': 'Database',
-  
+
   // Languages
   'JavaScript': 'Language',
   'TypeScript': 'Language',
@@ -62,13 +63,13 @@ const TECH_CATEGORIES: Record<string, string> = {
   'Dart': 'Language',
   'Kotlin': 'Language',
   'Swift': 'Language',
-  
+
   // Mobile
   'Flutter': 'Mobile',
   'React Native': 'Mobile',
   'Ionic': 'Mobile',
   'Xamarin': 'Mobile',
-  
+
   // DevOps
   'Docker': 'DevOps',
   'Kubernetes': 'DevOps',
@@ -76,7 +77,7 @@ const TECH_CATEGORIES: Record<string, string> = {
   'GitHub Actions': 'DevOps',
   'GitLab CI': 'DevOps',
   'CircleCI': 'DevOps',
-  
+
   // Cloud
   'AWS': 'Cloud',
   'Azure': 'Cloud',
@@ -85,7 +86,7 @@ const TECH_CATEGORIES: Record<string, string> = {
   'Netlify': 'Cloud',
   'Heroku': 'Cloud',
   'DigitalOcean': 'Cloud',
-  
+
   // Tools
   'Git': 'Tools',
   'GitHub': 'Tools',
@@ -95,7 +96,7 @@ const TECH_CATEGORIES: Record<string, string> = {
   'Vite': 'Tools',
   'ESLint': 'Tools',
   'Prettier': 'Tools',
-  
+
   // Data Science
   'Pandas': 'Data Science',
   'NumPy': 'Data Science',
@@ -104,7 +105,7 @@ const TECH_CATEGORIES: Record<string, string> = {
   'TensorFlow': 'Data Science',
   'PyTorch': 'Data Science',
   'Jupyter': 'Data Science',
-  
+
   // Testing
   'Jest': 'Testing',
   'Vitest': 'Testing',
@@ -138,7 +139,7 @@ export function buildTechGraph(projects: Project[]): Technology[] {
     category: string;
     relatedTech: Set<string>;
   }>();
-  
+
   // First pass: collect all unique technologies
   projects.forEach(project => {
     project.tech_stack.forEach(tech => {
@@ -151,17 +152,17 @@ export function buildTechGraph(projects: Project[]): Technology[] {
       }
     });
   });
-  
+
   // Second pass: build relationships based on co-occurrence
   projects.forEach(project => {
     const techs = project.tech_stack;
-    
+
     // For each pair of technologies in the same project
     for (let i = 0; i < techs.length; i++) {
       for (let j = i + 1; j < techs.length; j++) {
         const tech1 = techMap.get(techs[i]);
         const tech2 = techMap.get(techs[j]);
-        
+
         if (tech1 && tech2) {
           // Add bidirectional relationship
           tech1.relatedTech.add(techs[j]);
@@ -170,7 +171,7 @@ export function buildTechGraph(projects: Project[]): Technology[] {
       }
     }
   });
-  
+
   // Convert to Technology array
   const technologies: Technology[] = Array.from(techMap.entries()).map(([name, data]) => ({
     id: name, // Use name as ID for simplicity
@@ -178,7 +179,7 @@ export function buildTechGraph(projects: Project[]): Technology[] {
     category: data.category,
     relatedTech: Array.from(data.relatedTech),
   }));
-  
+
   return technologies;
 }
 
@@ -217,9 +218,9 @@ export function getTechStats(technologies: Technology[]): {
     (sum, tech) => sum + tech.relatedTech.length,
     0
   ) / 2; // Divide by 2 because connections are bidirectional
-  
+
   const avgConnectionsPerTech = totalTechs > 0 ? totalConnections / totalTechs : 0;
-  
+
   const mostConnectedTech = technologies.reduce<Technology | null>(
     (max, tech) => {
       if (!max || tech.relatedTech.length > max.relatedTech.length) {
@@ -229,7 +230,7 @@ export function getTechStats(technologies: Technology[]): {
     },
     null
   );
-  
+
   return {
     totalTechs,
     totalCategories,
