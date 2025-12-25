@@ -173,8 +173,8 @@ export interface TextureOptimizationOptions {
   maxSize?: number;
   generateMipmaps?: boolean;
   anisotropy?: number;
-  minFilter?: THREE.TextureFilter;
-  magFilter?: THREE.TextureFilter;
+  minFilter?: THREE.MinificationTextureFilter;
+  magFilter?: THREE.MagnificationTextureFilter;
 }
 
 /**
@@ -248,13 +248,14 @@ export function compressTexture(
 
   if (!ctx) return texture;
 
-  const { width, height } = texture.image;
+  const image = texture.image as any;
+  const { width, height } = image;
   const scale = Math.min(targetSize / width, targetSize / height, 1);
 
   canvas.width = width * scale;
   canvas.height = height * scale;
 
-  ctx.drawImage(texture.image, 0, 0, canvas.width, canvas.height);
+  ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
   const compressedTexture = new THREE.CanvasTexture(canvas);
   compressedTexture.minFilter = texture.minFilter;
