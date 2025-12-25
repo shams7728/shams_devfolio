@@ -4,10 +4,10 @@ import ReactMarkdown from 'react-markdown';
 import { motion } from 'framer-motion';
 import { SpotlightCard } from '@/components/ui/spotlight-card';
 import { ExternalLink, Github, Globe } from 'lucide-react';
-import { Project } from '@/lib/types/database';
+import { Project, ProjectWithRole } from '@/lib/types/database';
 
 interface ProjectInfoProps {
-    project: Project;
+    project: ProjectWithRole;
 }
 
 export function ProjectInfo({ project }: ProjectInfoProps) {
